@@ -151,6 +151,32 @@ application:
                       osb:
                         middleware_home: "{$.installation-dir}"
                         url: "{$.service-bus-binary-url}"
+                                                
+              - create-oracle-service-bus-domain:
+                  action: chefsolo
+                  precedingPhases: [install-oralce-service-bus]
+                  parameters:
+                    roles: [default]
+                    recipeUrl: "{$.service-bus-recipe-url}"
+                    runList: ["recipe[oracle_service_bus::create_domain]"]
+                    jattrs:
+                      osb:
+                        middleware_home: "{$.installation-dir}"
+                        username: "{$.weblogic-user}"
+                        password: "{$.weblogic-user-password}"
+
+              # - start-oracle-service-bus:
+              #     action: chefsolo
+              #     precedingPhases: [create-oracle-service-bus-domain]
+              #     parameters:
+              #       roles: [default]
+              #       recipeUrl: "{$.service-bus-recipe-url}"
+              #       runList: ["recipe[oracle_service_bus::start_managed_wl]"]
+              #       jattrs:
+              #         osb:
+              #           middleware_home: "{$.installation-dir}"
+              #           username: "{$.weblogic-user}"
+              #           password: "{$.weblogic-user-password}"
             return:
               wl-hosts: 
                 value: "{$.wl-hosts}"
